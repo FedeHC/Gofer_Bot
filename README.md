@@ -3,6 +3,8 @@ Un bot que tira frases random creado exclusivamente para el chat de Gofer en Tel
 
 El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https://github.com/python-telegram-bot/python-telegram-bot) (para ser más precisos, [este](https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/echobot.py)).
 
+(Para más información: https://core.telegram.org/bots)
+
 ![Imagen](https://github.com/FedeHC/Gofer_Bot/blob/master/Imagenes/Captura.jpg)
 
 ## Requisitos:
@@ -10,8 +12,8 @@ El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https:
 - Instalar [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot#installing).
 
 ## Instalación:
-1) Cloná el repo.
-2) Instalá todos los requisitos mencionados anteriormente.
+1) Clonar el repo.
+2) Cumplir con los requisitos anteriormente mencionados.
 3) Ejecutar el script:
 ```
     python3 gofer_bot.py
