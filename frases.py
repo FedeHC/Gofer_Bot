@@ -53,5 +53,7 @@ frases = ["Basta Fede.",
 "Sarasa.",
 "Ahre que no terminé el TP.",
 " c  ｏ  ｗ  ｏ  ｒ  ｋ  ｉ  ｎ  ｇ\n///////////////////////////////////\n┬┴┬┴┬┴┬┴┤        ├┬┴┬┴┬┴┬┴\n┬┴┬┴┬┴┬┴┤◡•)  ├┬┴┬┴┬┴┬┴\n( ͡ᵔ ͜ʖ ͡ᵔ ) (˘▾˘)~                \(•◡•)\n",
-"Ajá."
+"Ajá.",
+"https://github.com/FedeHC/Gofer_Bot",
+"Sarlanga."
 ]
