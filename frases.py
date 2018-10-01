@@ -55,5 +55,8 @@ frases = ["Basta Fede.",
 " c  ｏ  ｗ  ｏ  ｒ  ｋ  ｉ  ｎ  ｇ\n///////////////////////////////////\n┬┴┬┴┬┴┬┴┤        ├┬┴┬┴┬┴┬┴\n┬┴┬┴┬┴┬┴┤◡•)  ├┬┴┬┴┬┴┬┴\n( ͡ᵔ ͜ʖ ͡ᵔ ) (˘▾˘)~                \(•◡•)\n",
 "Ajá.",
 "https://github.com/FedeHC/Gofer_Bot",
-"Sarlanga."
+"Sarlanga.",
+"¿Hay clases el miércoles?",
+"https://github.com/FedeHC/Gofer_Bot",
+"Qué dura es la vida del trainee (?)"
 ]
