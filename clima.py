@@ -48,9 +48,8 @@ def ahora():
         else:
             clima.update({'dia_o_noche': 'noche'})
 
-        descripcion, icono = traducir(json['weather'][0]['description'], clima['dia_o_noche'])
+        descripcion = traducir(json['weather'][0]['description'], clima['dia_o_noche'])
         clima.update({'descripcion': descripcion})
-        clima.update({'icono': icono})
 
         return clima
 
@@ -62,41 +61,40 @@ def traducir(descripcion, dia_o_noche):
         '''Función para traducir una descripción del clima recibido en inglés.'''
 
         if descripcion == 'clear sky':
-            descripcion = 'Está despejado, como para salir.'
             if dia_o_noche == 'dia':
                 icono = '☀️'
             else:
                 icono = '🌙'
+            descripcion = 'Está despejado ({0}) ¡qué bien!'.format(icono)
 
         elif 'clouds' in descripcion and descripcion != 'overcast clouds':
-            descripcion = 'Hay algunas nubes me parece..'
             if dia_o_noche == 'dia':
                 icono = '🌤'
             else:
                 icono = '☁️🌙☁️'
+            descripcion = 'Hay algunas nubes ({0}) me parece.'.format(icono)
 
         elif descripcion == 'overcast clouds':
-            descripcion = 'Está nubladito nubladón (qué cagada).'
             icono = '☁️'
+            descripcion = 'Está re nublado ({0}) qué cagada.'.format(icono)
 
         elif 'drizzle' in descripcion or 'rain' in descripcion:
-            descripcion = 'Está lloviendo, lpmqlp.'
             icono = '🌧'
+            descripcion = 'Está lloviendo ({0}) lpm.'.format(icono)
 
         elif descripcion == 'thunderstorm':
-            descripcion = 'Hay alta tormenta, NI SALGAS.'
             icono = '⛈'
+            descripcion = 'Hay alta tormenta ({0}) NI SALGAS.'.format(icono)
 
         elif descripcion == 'snow':
-            descripcion = 'Nevandooooooooooo a fuuuull!'
             icono = '❄️'
+            descripcion = 'Está nevando ({0}) ¡NEVANDO!'.format(icono)
 
         elif descripcion == 'mist' or descripcion == 'fog':
-            descripcion = 'No veo nada, asi que hay neblina.'
             icono = '🌫'
+            descripcion = 'No veo un carajo ({0}) alta neblina hay.'.format(icono)
 
         else:
-            descripcion = 'No sé nada, no tengo datos, aiuda. :S'
-            icono = '❓'
+            descripcion = 'No sé nada, no tengo datos, aiuda plis. :S'
 
-        return descripcion, icono
+        return descripcion

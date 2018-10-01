@@ -42,12 +42,11 @@ def clima(bot, update):
     minima = str(datos['temp_min']) + '°'
     maxima = str(datos['temp_max']) + '°'
     humedad = str(datos['humedad']) + '%'
-    viento = str(datos['viento'] * 3.6) + ' km/h'  # Pasando de m/s a km/h (y después casteando a string).
+    viento = str(round((datos['viento'] * 3.6), 2)) + ' km/h'  # Pasando de m/s a km/h (y después casteando a string).
     descripcion = str(datos['descripcion'])
-    icono = str(datos['icono'])
 
     hora = dt.datetime.fromtimestamp(datos['ts_ultimo'])
-    dia_o_noche = clima['dia_o_noche']
+    dia_o_noche = str(datos['dia_o_noche'])
     hora = str(dt.datetime.now().hour) + ':'
     minutos = dt.datetime.now().minute
     if minutos < 10:
@@ -57,8 +56,8 @@ def clima(bot, update):
     hora += minutos
 
     if datos:
-        update.message.reply_text('✨✨✨ El clima en CABA ✨✨✨\n\n' +
-                                '  - {0} {1}\n'.format(descripcion, icono) +
+        update.message.reply_text('✨✨✨✨ El clima en CABA ✨✨✨✨\n\n' +
+                                '  - {0}\n'.format(descripcion) +
                                 '  - Temp: {0} (Min: {1} / Max: {2})\n'.format(temp, minima, maxima) +
                                 '  - Humedad: {0}\n'.format(humedad) +
                                 '  - Viento: {0}'.format(viento),
@@ -75,7 +74,7 @@ def dilotuyo(bot, update):
 
 def error(bot, update, error):
     '''Loguea errores causados por Update's.'''
-    logger.warning('Update '%s' caused error '%s'', update, error)
+    logger.warning("Update '%s' caused error '%s'", update, error)
 
 
 def main():
