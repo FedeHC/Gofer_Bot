@@ -44,7 +44,14 @@ def clima(bot, update):
     hora = dt.datetime.fromtimestamp(datos['ts_ultimo'])
 
     # dia_o_noche = clima["de_dia"]
-    hora = str(dt.datetime.now().hour) + ":" + str(dt.datetime.now().minute)
+    hora = str(dt.datetime.now().hour) + ":"
+    minutos = dt.datetime.now().minute
+    if minutos < 10:
+        minutos =  "0" + str(minutos) 
+    else:
+        minutos = str(minutos)
+    
+    hora += minutos
 
     if datos:
         update.message.reply_text("El clima ahora a las {0} hs. en CABA:\n".format(hora) +
