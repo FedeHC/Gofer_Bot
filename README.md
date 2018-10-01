@@ -7,7 +7,7 @@ El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https:
 
 ## Requisitos:
 - Tener Python 3.x instalado.
-- Instalar (python-telegram-bot)[https://github.com/python-telegram-bot/python-telegram-bot#installing].
+- Instalar [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot#installing).
 
 ## Instalación:
 1) Cloná el repo.
