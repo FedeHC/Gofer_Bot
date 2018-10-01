@@ -16,6 +16,6 @@ El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https:
 ```
     python3 gofer_bot.py
 ```
-### Más información sobre cómo crear bots en Telegram:
+### Para más información:
 - https://core.telegram.org/bots
 - https://core.telegram.org/bots/api
