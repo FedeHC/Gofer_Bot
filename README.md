@@ -1,7 +1,7 @@
 # Gofer_Bot
 Un bot que tira frases random creado exclusivamente para el chat de Goferitos en Telegram.
 
-El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https://github.com/python-telegram-bot/python-telegram-bot) (para ser más precisos, [este](https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/echobot.py)).
+El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https://github.com/python-telegram-bot/python-telegram-bot) (para ser más precisos, [este](https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/echobot2.py)).
 
 ![Imagen](https://github.com/FedeHC/Gofer_Bot/blob/master/Imagenes/Captura.jpg)
 
@@ -17,5 +17,6 @@ El mismo es una variante de un script de ejemplo de [Python-Telegram-Bot](https:
     python3 gofer_bot.py
 ```
 ### Para más información:
-- https://core.telegram.org/bots
-- https://core.telegram.org/bots/api
+- [Telegram- Bots](https://core.telegram.org/bots)
+- [Telegram- API](https://core.telegram.org/bots/api)
+- [Python-Telegram-Bot Documentation](https://python-telegram-bot.readthedocs.io/en/stable/)
