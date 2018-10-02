@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-- Un simple bot que replica mensajes de Telegram..
-- Presione Ctrl-C en la línea de comandos o envíe una señal al proceso para detener el bot..
-'''
+# ------------------------------------------------------------------------------------------
+# Un simple bot que replica mensajes de Telegram.
+# Presione Ctrl-C en la línea de comandos o envíe una señal al proceso para detener el bot.
+# ------------------------------------------------------------------------------------------
+
 
 from telegram.ext import Updater, CommandHandler
 import logging
@@ -16,16 +17,21 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-def frase_al_azar():
-    '''Se elije una frase al azar y se devuelve a la función invocante.'''
+def frase_al_azar(trampa = False):
+    '''Función que elije una frase al azar de una lista importada y que la devuelve a la función invocante.'''
     import random
-    from frases import frases
+
+    if trampa:
+        from frases import mis_frases as frases
+    else:
+        from frases import frases
+
     pos = random.randint(0, len(frases)-1)
     return frases[pos]
 
 
 # Define algunos manejadores de comandos. Estos usualmente toman los dos argumentos, bot y update.
-# Los error handlers también reciben el objeto TelegramError al surgir error.
+# Los error handlers también reciben el objeto TelegramError al surgir un error.
 def ayuda(bot, update):
     '''Mandar un mensaje cuando el comando /ayuda es enviado.'''
     from frases import mensaje_ayuda
@@ -58,7 +64,7 @@ def clima(bot, update):
     if datos:
         update.message.reply_text('[El clima en Ｃ Ａ Ｂ Ａ]\n\n' +
                                 '  - {0}\n'.format(descripcion) +
-                                '  - Temp: {0}\n  (Mínima: {1} / Máxima: {2})\n'.format(temp, minima, maxima) +
+                                '  - Temp: {0}\n  (Min: {1} / Máx: {2})\n'.format(temp, minima, maxima) +
                                 '  - Humedad: {0}\n'.format(humedad) +
                                 '  - Viento: {0}'.format(viento),
                                 quote=False)
@@ -68,8 +74,13 @@ def clima(bot, update):
 
 
 def dilotuyo(bot, update):
-    '''Manda un mensaje random al usuario.'''
+    '''Manda un mensaje random al usuario/chat grupal.'''
     update.message.reply_text(frase_al_azar(), quote=False)
+
+
+def dllotuyo(bot, update):
+    '''Manda un mensaje random de mi lista personalizada al usuario/chat grupal.'''
+    update.message.reply_text(frase_al_azar(True), quote=False)
 
 
 def error(bot, update, error):
@@ -88,6 +99,7 @@ def main():
     dp.add_handler(CommandHandler('ayuda', ayuda))
     dp.add_handler(CommandHandler('clima', clima))
     dp.add_handler(CommandHandler('dilotuyo', dilotuyo))
+    dp.add_handler(CommandHandler('dllotuyo', dllotuyo))
 
     # Loguea todos los errores:
     dp.add_error_handler(error)

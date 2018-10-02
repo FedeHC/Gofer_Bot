@@ -33,7 +33,7 @@ frases = [
 'Vayan a codear.',
 'Puto el que lee.',
 '[Vale por unos dolarucos --> 💵]',
-'Si estas viendo este /dilotuyo\nmientras scrolleabas este chat\n\n✨✨✨💸🤖💸✨✨✨\nFuiste visitado por el ANGEL\nROBOTICO DE LOS TRAINEES\n\nSuerte asegurada en tu prox.\nentrevista solo si posteas\n✨✨ Gracias GoferBot✨✨',
+'Si estas viendo este /dilotuyo\nmientras scrolleabas este chat\n\n✨✨✨💸🤖💸✨✨✨\nFuiste visitado por el ANGEL\nROBOTICO DE LOS TRAINEES\n\nSuerte asegurada en tu prox.\nentrevista solo si posteas\n✨✨\"Gracias GoferBot\"✨✨',
 'Dejame descansar un poco che.',
 'Qué ganas de romper las bolas ehh.',
 'El cielo oscurecee 🎵\nY el 28 no vieneee... 🎶',
@@ -62,4 +62,13 @@ frases = [
 '[Vale por 1 café --> ☕️]',
 'Espero que no llueva.',
 'Llevá la notebook.'
+]
+
+
+mis_frases = [
+"Que tendrían que darte bola.",
+"Que tenes razón.",
+"Que coincido.",
+"Que tendrían que hacerte caso.",
+"Que me gusta eso."
 ]
