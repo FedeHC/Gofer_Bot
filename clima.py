@@ -65,34 +65,34 @@ def traducir(descripcion, dia_o_noche):
                 icono = '☀️'
             else:
                 icono = '🌙'
-            descripcion = 'Está despejado ({0}) ¡qué bien!'.format(icono)
+            descripcion = 'Está despejado ({0}),\nideal para salir de la cueva.'.format(icono)
 
         elif 'clouds' in descripcion and descripcion != 'overcast clouds':
             if dia_o_noche == 'dia':
                 icono = '🌤'
             else:
                 icono = '☁️🌙☁️'
-            descripcion = 'Hay algunas nubes ({0}) me parece.'.format(icono)
+            descripcion = 'Hay algunas nubes ({0}),\npero todavía sirve (?).'.format(icono)
 
         elif descripcion == 'overcast clouds':
             icono = '☁️'
-            descripcion = 'Está re nublado ({0}) qué cagada.'.format(icono)
+            descripcion = 'Está re nublado ({0}),\ncomo para ver Netflix.'.format(icono)
 
         elif 'drizzle' in descripcion or 'rain' in descripcion:
             icono = '🌧'
-            descripcion = 'Está lloviendo ({0}) lpm.'.format(icono)
+            descripcion = 'Está lloviendo ({0}),\ny yo sin lancha, qué picardía.'.format(icono)
 
         elif descripcion == 'thunderstorm':
             icono = '⛈'
-            descripcion = 'Hay alta tormenta ({0}) NI SALGAS.'.format(icono)
+            descripcion = 'Alta tormenta ({0}),\nquedate ahí, NO SALGAS'.format(icono)
 
         elif descripcion == 'snow':
             icono = '❄️'
-            descripcion = 'Está nevando ({0}) ¡NEVANDO!'.format(icono)
+            descripcion = 'Está nevando ({0}),\nsalí a hacer el muñeco de nieve YA.'.format(icono)
 
         elif descripcion == 'mist' or descripcion == 'fog':
             icono = '🌫'
-            descripcion = 'No veo un carajo ({0}) alta neblina hay.'.format(icono)
+            descripcion = 'No veo un carajo ({0}),\n debe haber alta neblina.'.format(icono)
 
         else:
             descripcion = 'No sé nada, no tengo datos, aiuda plis. :S'

@@ -56,9 +56,9 @@ def clima(bot, update):
     hora += minutos
 
     if datos:
-        update.message.reply_text('✨✨✨✨ El clima en CABA ✨✨✨✨\n\n' +
+        update.message.reply_text('[El clima en Ｃ Ａ Ｂ Ａ]\n\n' +
                                 '  - {0}\n'.format(descripcion) +
-                                '  - Temp: {0} (Min: {1} / Max: {2})\n'.format(temp, minima, maxima) +
+                                '  - Temp: {0}\n  (Mínima: {1} / Máxima: {2})\n'.format(temp, minima, maxima) +
                                 '  - Humedad: {0}\n'.format(humedad) +
                                 '  - Viento: {0}'.format(viento),
                                 quote=False)
