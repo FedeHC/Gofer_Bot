@@ -6,7 +6,7 @@
 # Presione Ctrl-C en la línea de comandos o envíe una señal al proceso para detener el bot.
 # ------------------------------------------------------------------------------------------
 
-
+from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler
 import logging
 
@@ -16,22 +16,17 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+# Para usar en funciones 'todos' y 'nojodan':
+tiempo_final = None
 
-def frase_al_azar(trampa = False):
-    '''Función que elije una frase al azar de una lista importada y que la devuelve a la función invocante.'''
+def frase_al_azar(frases):
+    '''Función que elije una frase al azar de una lista pasada y la devuelve a la función invocante.'''
     import random
-
-    if trampa:
-        from frases import mis_frases as frases
-    else:
-        from frases import frases
 
     pos = random.randint(0, len(frases)-1)
     return frases[pos]
 
 
-# Define algunos manejadores de comandos. Estos usualmente toman los dos argumentos, bot y update.
-# Los error handlers también reciben el objeto TelegramError al surgir un error.
 def ayuda(bot, update):
     '''Mandar un mensaje cuando el comando /ayuda es enviado.'''
     from frases import mensaje_ayuda
@@ -75,12 +70,118 @@ def clima(bot, update):
 
 def dilotuyo(bot, update):
     '''Manda un mensaje random al usuario/chat grupal.'''
-    update.message.reply_text(frase_al_azar(), quote=False)
+    from frases import frases
+
+    update.message.reply_text(frase_al_azar(frases), quote=False)
 
 
-def dllotuyo(bot, update):
-    '''Manda un mensaje random de mi lista personalizada al usuario/chat grupal.'''
-    update.message.reply_text(frase_al_azar(True), quote=False)
+def todos(bot, update, args):
+    '''Mandar un mensaje a todos los usuarios cuando el comando /todos es enviado.'''
+
+    import time
+    tiempo_actual = round(time.time())
+
+    global tiempo_final
+
+    # Comprobamos si hay un tiempo final fijado y si el tiempo actual no lo sobrepasó:
+    if tiempo_final != None:
+        if tiempo_actual >= tiempo_final:
+            tiempo_final = None
+
+    # Si no hay un tiempo final fijado, podemos usar la función:
+    if tiempo_final == None:
+        from frases import usuarios
+        mensaje_user = ' '.join(args)
+        update.message.reply_text("<pre>{0}</pre>\n\n{1}".format(usuarios, mensaje_user), quote=False, parse_mode=ParseMode.HTML)
+    
+    # En caso de si haberlo, lo advertimos:
+    else:
+        from frases import mensajes_no_jodas
+
+        tiempo_restante = round(tiempo_final-tiempo_actual)
+        unidad = "segundos"
+
+        if tiempo_restante >= 60 and tiempo_restante < 3600:
+            tiempo_restante = round(tiempo_restante / 60)
+            unidad = "minutos"
+
+        update.message.reply_text("Faltan {0} {1} para poder usar <b>/todos</b> de nuevo.".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
+        update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
+
+
+def nojodan(bot, update, args):
+    '''Cancela la función '/todos' por X tiempo y se manda un mensaje avisando dicha cancelación.'''
+    
+    import time
+    from frases import mensajes_no_jodas
+
+    tiempo_actual = round(time.time())
+
+    global tiempo_final
+
+    if tiempo_final != None: 
+        if tiempo_actual < tiempo_final:
+
+            tiempo_restante = round(tiempo_final-tiempo_actual)
+            unidad = "segundos"
+
+            if tiempo_restante >= 60 and tiempo_restante < 3600:
+                tiempo_restante = round(tiempo_restante / 60)
+                unidad = "minutos"
+
+            update.message.reply_text("Desactivado hasta que no pase el tiempo anteriormente fijado (falta {0} {1}).".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
+            update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
+
+    else:
+        tiempo = 0
+        unidad = ""
+
+        if len(args) > 0:
+            for valor in args:
+                if valor.isdecimal() and tiempo == 0:
+                    tiempo = int(valor)
+                if ("dia" == valor.lower() or "dias" == valor.lower()) and unidad == "":
+                    unidad = valor.lower()
+                if ("hora" == valor.lower() or "horas" == valor.lower()) and unidad == "":
+                    unidad = valor.lower()
+                if ("minuto" == valor.lower() or "minutos" == valor.lower()) and unidad == "":
+                    unidad = valor.lower()
+                if ("segundo" == valor.lower() or "segundos" == valor.lower()) and unidad == "":
+                    unidad = valor.lower()
+
+            if unidad == "":
+                unidad = "minutos"
+
+        else:
+            tiempo = 10
+            unidad = "minutos"
+
+        # Ya con tiempo y unidad establecidos, guardarmos el tiempo en otra variable en segundos:
+        if unidad == "segundo" or unidad == "segundos":
+            tiempo_en_seg = tiempo
+        elif unidad == "minuto" or unidad == "minutos":
+            tiempo_en_seg = round(tiempo * 60)
+        elif unidad == "hora" or unidad == "horas":
+            tiempo_en_seg = round(tiempo * 60*60)
+        elif unidad == "dia" or unidad == "dias":
+            tiempo_en_seg = round(tiempo * 60*60*24)
+
+        # Si el tiempo es menor a 10 segundos, se retorna:
+        if tiempo_en_seg < 10:
+            update.message.reply_text("¿{0} {1}? Pasá un tiempo razonable, bola.".format(str(tiempo_en_seg), unidad), quote=False, parse_mode=ParseMode.HTML)
+            return
+
+        # Si el tiempo se excede de la hora, lo limitamos a 1 hora:
+        if tiempo_en_seg > 3600:
+            update.message.reply_text("No lo voy a poner en {0} {1} ni en pedo, olvidate.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
+            tiempo_en_seg = 3600
+            tiempo = 1
+            unidad = "hora"
+
+        # Seteando tiempo final:
+        tiempo_final = tiempo_actual + tiempo_en_seg
+
+        update.message.reply_text("La función <b>/todos</b> fue desactivada por {0} {1}.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
 
 
 def error(bot, update, error):
@@ -96,10 +197,12 @@ def main():
     # Obtiene dispatcher para poder registrar los handlers a usar:
     dp = updater.dispatcher
 
+    # Handlers:
     dp.add_handler(CommandHandler('ayuda', ayuda))
     dp.add_handler(CommandHandler('clima', clima))
     dp.add_handler(CommandHandler('dilotuyo', dilotuyo))
-    dp.add_handler(CommandHandler('dllotuyo', dllotuyo))
+    dp.add_handler(CommandHandler('todos', todos, pass_args=True))
+    dp.add_handler(CommandHandler('nojodan', nojodan, pass_args=True))
 
     # Loguea todos los errores:
     dp.add_error_handler(error)
