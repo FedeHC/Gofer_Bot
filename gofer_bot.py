@@ -10,7 +10,7 @@ from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler
 import logging
 
-# Enable logging
+# Activar logueo:
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
@@ -64,8 +64,7 @@ def clima(bot, update):
                                 '  - Viento: {0}'.format(viento),
                                 quote=False)
     else:
-        update.message.reply_text('Sorry, no pude conseguir los datos del clima. :(',
-                                 quote=False)
+        update.message.reply_text('Sorry, no pude conseguir los datos del clima. :(', quote=False)
 
 
 def dilotuyo(bot, update):
@@ -129,7 +128,7 @@ def nojodan(bot, update, args):
                 tiempo_restante = round(tiempo_restante / 60)
                 unidad = "minutos"
 
-            update.message.reply_text("Desactivado hasta que no pase el tiempo anteriormente fijado (falta {0} {1}).".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
+            update.message.reply_text("No se puede usar de nuevo hasta que no pase el tiempo anteriormente fijado (falta {0} {1}).".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
             update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
 
     else:
@@ -189,10 +188,11 @@ def error(bot, update, error):
     logger.warning("Update '%s' caused error '%s'", update, error)
 
 
-def main():
+def main(token):
     '''Inicia el bot.'''
+
     # Crea EventHandler y pasa el token de tu bot:
-    updater = Updater('613009817:AAHQhu7ggAUPJnhJdfWmHsHijVC1zrGGguU')
+    updater = Updater(token)
 
     # Obtiene dispatcher para poder registrar los handlers a usar:
     dp = updater.dispatcher
@@ -217,4 +217,11 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    
+    import sys
+    token = sys.argv[1]
+
+    if token != None:
+        main(token)
+    else:
+        print("Error: no se pasó el token necesario para ejecutar el script.")
