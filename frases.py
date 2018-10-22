@@ -1,11 +1,40 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# -------------------------------
-# Lista de frases para gofer_bot
-# -------------------------------
+# Lista de frases, mensajes y unidades para gofer_bot.
+
 
 usuarios = '@Oca_Ramone @Frangs @JustKyo @xbuster17 @GenericNPC @FacuBlanco @FedeHC'
+
+
+unidades = {
+'nanosegundo': 0.000001,
+'nanosegundos': 0.000001,
+'milisegundo': 0.001,
+'milisegundos': 0.001,
+'segundo': 1,
+'segundos': 1,
+'minuto': 60,
+'minutos': 60,
+'hora': 3600,
+'horas': 3600,
+'dia': 86400,
+'dias': 86400,
+'semana': 604800,
+'semanas': 604800,
+'quincena': 1296000,
+'quincenas': 1296000,
+'mes': 2592000,
+'meses': 2592000,
+'año': 31536000,
+'años': 31536000,
+'decada': 315360000,
+'decadas': 315360000,
+'siglo': 3153600000,
+'siglos': 3153600000,
+'milenio': 31536000000,
+'milenios': 31536000000
+}
 
 
 mensaje_ayuda = '''[ Ａ Ｙ Ｕ Ｄ Ａ ]
@@ -17,7 +46,7 @@ mensaje_ayuda = '''[ Ａ Ｙ Ｕ Ｄ Ａ ]
 
 
 mensajes_no_jodas = [
-'Asi que te calmas.',
+'Te calmas.',
 'Perá un poco.',
 'Relax.',
 'Relajate un toque.',
@@ -31,7 +60,7 @@ mensajes_no_jodas = [
 'Bancá.',
 'Awantaaaaa.',
 '¿No tenes nada mejor que hacer?',
-'Mejor distraete con... algo.'
+'Mejor distraete con algo.'
 ]
 
 

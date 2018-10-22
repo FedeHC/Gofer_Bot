@@ -13,11 +13,11 @@ import logging
 # Activar logueo:
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
-
 logger = logging.getLogger(__name__)
 
-# Para usar en funciones 'todos' y 'nojodan':
+# Guarda tiempo para usar en funciones 'todos' y 'nojodan':
 tiempo_final = None
+
 
 def frase_al_azar(frases):
     '''Función que elije una frase al azar de una lista pasada y la devuelve a la función invocante.'''
@@ -104,20 +104,21 @@ def todos(bot, update, args):
             tiempo_restante = round(tiempo_restante / 60)
             unidad = "minutos"
 
-        update.message.reply_text("Faltan {0} {1} para poder usar <b>/todos</b> de nuevo.".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
+        update.message.reply_text("Faltan como {0} {1} para poder usar <b>/todos</b> de nuevo.".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
         update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
 
 
 def nojodan(bot, update, args):
-    '''Cancela la función '/todos' por X tiempo y se manda un mensaje avisando dicha cancelación.'''
+    '''Cancela la función '/todos' por X tiempo y manda mensaje avisando dicha cancelación.'''
     
     import time
-    from frases import mensajes_no_jodas
+    from frases import mensajes_no_jodas, unidades
 
     tiempo_actual = round(time.time())
 
     global tiempo_final
 
+    # En casi de haber un tiempo establecido...
     if tiempo_final != None: 
         if tiempo_actual < tiempo_final:
 
@@ -131,51 +132,56 @@ def nojodan(bot, update, args):
             update.message.reply_text("No se puede usar de nuevo hasta que no pase el tiempo anteriormente fijado (falta {0} {1}).".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
             update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
 
+    # En caso de NO haber un tiempo establecido...
     else:
         tiempo = 0
         unidad = ""
 
         if len(args) > 0:
             for valor in args:
+                valor = valor.lower()
+
+                # Si el argumento es decimal lo casteamos a un entero:
                 if valor.isdecimal() and tiempo == 0:
                     tiempo = int(valor)
-                if ("dia" == valor.lower() or "dias" == valor.lower()) and unidad == "":
-                    unidad = valor.lower()
-                if ("hora" == valor.lower() or "horas" == valor.lower()) and unidad == "":
-                    unidad = valor.lower()
-                if ("minuto" == valor.lower() or "minutos" == valor.lower()) and unidad == "":
-                    unidad = valor.lower()
-                if ("segundo" == valor.lower() or "segundos" == valor.lower()) and unidad == "":
-                    unidad = valor.lower()
 
-            if unidad == "":
+                # Si el argumento es una unidad de medida reconocido:
+                elif valor in unidades:
+                    unidad = valor
+                    tiempo_en_seg = unidades[valor]
+
+                # En cualquier otro caso, avisamos y seteamos valores por defecto:
+                else: 
+                    update.message.reply_text("No entendí el valor y/o la unidad que me pasaste, asi que te jodes y lo dejo en 10 min.", quote=False, parse_mode=ParseMode.HTML)
+
+            
+            # Si no se reconoció un valor, se fija a los valores por defecto:
+            if unidad == "" or tiempo == 0:
+                tiempo = 10
                 unidad = "minutos"
+                tiempo_en_seg = tiempo * unidades[unidad]
 
+            # En caso de haberse reconocido los argumentos pasados...
+            else:
+                tiempo_en_seg = tiempo * unidades[unidad]
+
+        # Si no se pasó argumentos, se fija a los valores por defecto:
         else:
             tiempo = 10
             unidad = "minutos"
-
-        # Ya con tiempo y unidad establecidos, guardarmos el tiempo en otra variable en segundos:
-        if unidad == "segundo" or unidad == "segundos":
-            tiempo_en_seg = tiempo
-        elif unidad == "minuto" or unidad == "minutos":
-            tiempo_en_seg = round(tiempo * 60)
-        elif unidad == "hora" or unidad == "horas":
-            tiempo_en_seg = round(tiempo * 60*60)
-        elif unidad == "dia" or unidad == "dias":
-            tiempo_en_seg = round(tiempo * 60*60*24)
+            tiempo_en_seg = tiempo * unidades[unidad]
 
         # Si el tiempo es menor a 10 segundos, se retorna:
         if tiempo_en_seg < 10:
-            update.message.reply_text("¿{0} {1}? Pasá un tiempo razonable, bola.".format(str(tiempo_en_seg), unidad), quote=False, parse_mode=ParseMode.HTML)
+            update.message.reply_text("<b>¿¡{0} {1}!?</b> Dale bola, pasame un tiempo razonable.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
             return
 
-        # Si el tiempo se excede de la hora, lo limitamos a 1 hora:
+        # Si el tiempo se excede de un día, lo limitamos entonces a 1 hora:
         if tiempo_en_seg > 3600:
             update.message.reply_text("No lo voy a poner en {0} {1} ni en pedo, olvidate.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
-            tiempo_en_seg = 3600
             tiempo = 1
             unidad = "hora"
+            tiempo_en_seg = tiempo * unidades[unidad]
 
         # Seteando tiempo final:
         tiempo_final = tiempo_actual + tiempo_en_seg
@@ -224,4 +230,5 @@ if __name__ == '__main__':
     if token != None:
         main(token)
     else:
-        print("Error: no se pasó el token necesario para ejecutar el script.")
+        print("\nError: no se pasó el token necesario para ejecutar el script.")
+        print("Abortando.\n")
