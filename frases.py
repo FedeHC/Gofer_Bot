@@ -28,10 +28,16 @@ unidades = {
 'meses': 2592000,
 'año': 31536000,
 'años': 31536000,
+'lustro': 157680000,
+'lustros': 157680000,
 'decada': 315360000,
 'decadas': 315360000,
+'decenio': 315360000,
+'decenios': 315360000,
 'siglo': 3153600000,
 'siglos': 3153600000,
+'centuria': 3153600000,
+'centurias': 3153600000,
 'milenio': 31536000000,
 'milenios': 31536000000
 }

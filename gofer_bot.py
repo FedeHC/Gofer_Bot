@@ -91,7 +91,8 @@ def todos(bot, update, args):
     if tiempo_final == None:
         from frases import usuarios
         mensaje_user = ' '.join(args)
-        update.message.reply_text("<pre>{0}</pre>\n\n{1}".format(usuarios, mensaje_user), quote=False, parse_mode=ParseMode.HTML)
+        update.message.reply_text("<b>{0}</b>\n\n{1}".format(usuarios, mensaje_user),
+                                  quote=False, parse_mode=ParseMode.HTML)
     
     # En caso de si haberlo, lo advertimos:
     else:
@@ -104,7 +105,8 @@ def todos(bot, update, args):
             tiempo_restante = round(tiempo_restante / 60)
             unidad = "minutos"
 
-        update.message.reply_text("Faltan como {0} {1} para poder usar <b>/todos</b> de nuevo.".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
+        update.message.reply_text("Faltan como {0} {1} para poder usar <b>/todos</b> de nuevo.".format(str(tiempo_restante), unidad),
+                                  quote=False, parse_mode=ParseMode.HTML)
         update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
 
 
@@ -129,7 +131,8 @@ def nojodan(bot, update, args):
                 tiempo_restante = round(tiempo_restante / 60)
                 unidad = "minutos"
 
-            update.message.reply_text("No se puede usar de nuevo hasta que no pase el tiempo anteriormente fijado (falta {0} {1}).".format(str(tiempo_restante), unidad), quote=False, parse_mode=ParseMode.HTML)
+            update.message.reply_text("No se puede usar de nuevo hasta que no pase el tiempo anteriormente fijado (falta {0} {1}).".format(str(tiempo_restante), unidad),
+                                      quote=False, parse_mode=ParseMode.HTML)
             update.message.reply_text(frase_al_azar(mensajes_no_jodas), quote=False)
 
     # En caso de NO haber un tiempo establecido...
@@ -152,7 +155,8 @@ def nojodan(bot, update, args):
 
                 # En cualquier otro caso, avisamos y seteamos valores por defecto:
                 else: 
-                    update.message.reply_text("No entendí el valor y/o la unidad que me pasaste, asi que te jodes y lo dejo en 10 min.", quote=False, parse_mode=ParseMode.HTML)
+                    update.message.reply_text("No entendí el valor y/o la unidad que me pasaste, asi que ahora te jodes y pongo lo que se me canta.",
+                                              quote=False, parse_mode=ParseMode.HTML)
 
             
             # Si no se reconoció un valor, se fija a los valores por defecto:
@@ -173,20 +177,22 @@ def nojodan(bot, update, args):
 
         # Si el tiempo es menor a 10 segundos, se retorna:
         if tiempo_en_seg < 10:
-            update.message.reply_text("<b>¿¡{0} {1}!?</b> Dale bola, pasame un tiempo razonable.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
+            update.message.reply_text("<b>¿¡{0} {1}!?</b> Dale bola, pasame un tiempo razonable.".format(str(tiempo), unidad),
+                                      quote=False, parse_mode=ParseMode.HTML)
             return
 
         # Si el tiempo se excede de un día, lo limitamos entonces a 1 hora:
         if tiempo_en_seg > 3600:
-            update.message.reply_text("No lo voy a poner en {0} {1} ni en pedo, olvidate.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
+            update.message.reply_text("No lo voy a poner en {0} {1} ni en pedo, olvidate.".format(str(tiempo), unidad),
+                                      quote=False, parse_mode=ParseMode.HTML)
             tiempo = 1
             unidad = "hora"
             tiempo_en_seg = tiempo * unidades[unidad]
 
         # Seteando tiempo final:
         tiempo_final = tiempo_actual + tiempo_en_seg
-
-        update.message.reply_text("La función <b>/todos</b> fue desactivada por {0} {1}.".format(str(tiempo), unidad), quote=False, parse_mode=ParseMode.HTML)
+        update.message.reply_text("La función <b>/todos</b> fue desactivada por {0} {1}.".format(str(tiempo), unidad),
+                                  quote=False, parse_mode=ParseMode.HTML)
 
 
 def error(bot, update, error):
@@ -197,10 +203,10 @@ def error(bot, update, error):
 def main(token):
     '''Inicia el bot.'''
 
-    # Crea EventHandler y pasa el token de tu bot:
+    # Crea EventHandler y pasa el token de nuestro bot:
     updater = Updater(token)
 
-    # Obtiene dispatcher para poder registrar los handlers a usar:
+    # Obtiene dispatcher para poder registrar los handlers a ser usados:
     dp = updater.dispatcher
 
     # Handlers:
@@ -216,9 +222,7 @@ def main(token):
     # Inicia el bot:
     updater.start_polling()
 
-    # Ejecuta el bot hasta que se pulse Ctrl-C o hasta que el proceso reciba SIGINT,
-    # SIGTERM o SIGABRT. Esto debería ser usado la mayor parte del tiempo, ya que
-    # start_polling() no bloquea y detiene el bot sin problemas:
+    # Ejecuta el bot hasta que se pulse Ctrl-C:
     updater.idle()
 
 
