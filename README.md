@@ -12,12 +12,13 @@ El mismo partió de uno de los ejemplos dados en la web de [Python-telegram-bot]
 ## Instalación:
 1) Clonar el repo.
 2) Cumplir con los requisitos anteriormente mencionados.
-3) Ejecutar el script y pasar el token* como argumento:
+3) Ejecutar el script de la sig. forma:
 ```
-    python3 gofer_bot.py TOKEN
+    python3 gofer_bot.py API_KEY_TELEGRAM API_KEY_OPENWEATHERMAP
 ```
 
-- Info acerca del Token: [Telegram Bot API- Token](https://core.telegram.org/bots/api#authorizing-your-bot). 
+- API de Telegram: [Telegram Bot API- Token](https://core.telegram.org/bots/api#authorizing-your-bot).
+- API de OpenWeatherMap.org: [OpenWeatherMap- Weather API](https://openweathermap.org/api)
 
 ### Para más información:
 - [Telegram- Bots](https://core.telegram.org/bots)
