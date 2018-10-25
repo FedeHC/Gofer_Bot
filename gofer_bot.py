@@ -21,23 +21,25 @@ tiempo_final = None
 
 def frase_al_azar(frases):
     '''Función que elije una frase al azar de una lista pasada y la devuelve a la función invocante.'''
+    
     import random
-
     pos = random.randint(0, len(frases)-1)
     return frases[pos]
 
 
 def ayuda(bot, update):
     '''Mandar un mensaje cuando el comando /ayuda es enviado.'''
+
     from frases import mensaje_ayuda
     update.message.reply_text(mensaje_ayuda, quote=False)
 
 
-def clima(bot, update):
+def clima(bot, update, api):
     '''Manda un mensaje con los datos del clima de CABA.'''
+
     import clima
     import datetime as dt
-    datos = clima.ahora()
+    datos = clima.ahora(api)
 
     temp = str(datos['temp']) + '°'
     minima = str(datos['temp_min']) + '°'
@@ -69,8 +71,8 @@ def clima(bot, update):
 
 def dilotuyo(bot, update):
     '''Manda un mensaje random al usuario/chat grupal.'''
-    from frases import frases
 
+    from frases import frases
     update.message.reply_text(frase_al_azar(frases), quote=False)
 
 
@@ -197,21 +199,25 @@ def nojodan(bot, update, args):
 
 def error(bot, update, error):
     '''Loguea errores causados por Update's.'''
+
     logger.warning("Update '%s' caused error '%s'", update, error)
 
 
-def main(token):
+def main(api_bot, api_weather):
     '''Inicia el bot.'''
 
+    # Uso functools.partial para agregar una argumento extra a función handler:
+    from functools import partial
+
     # Crea EventHandler y pasa el token de nuestro bot:
-    updater = Updater(token)
+    updater = Updater(api_bot)
 
     # Obtiene dispatcher para poder registrar los handlers a ser usados:
     dp = updater.dispatcher
 
     # Handlers:
     dp.add_handler(CommandHandler('ayuda', ayuda))
-    dp.add_handler(CommandHandler('clima', clima))
+    dp.add_handler(CommandHandler('clima', partial(clima, api=api_weather)))
     dp.add_handler(CommandHandler('dilotuyo', dilotuyo))
     dp.add_handler(CommandHandler('todos', todos, pass_args=True))
     dp.add_handler(CommandHandler('nojodan', nojodan, pass_args=True))
@@ -229,10 +235,12 @@ def main(token):
 if __name__ == '__main__':
     
     import sys
-    token = sys.argv[1]
 
-    if token != None:
-        main(token)
+    api_bot = sys.argv[1]
+    api_weather = sys.argv[2]
+
+    if api_bot and api_weather:
+        main(api_bot, api_weather)
     else:
-        print("\nError: no se pasó el token necesario para ejecutar el script.")
+        print("\nError: no se pasaron todas las API's necesarias.")
         print("Abortando.\n")

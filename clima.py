@@ -5,8 +5,9 @@
 # Script para sacar datos del clima desde API de OpenWeatherMap.org.
 # -------------------------------------------------------------------
 
-def ahora():
+def ahora(api_key):
     '''Función que devuelve diccionario con datos del clima, obtenidos desde API de OpenWeatherMap.org.'''
+    
     import json, requests
     import datetime as dt
 
@@ -15,7 +16,6 @@ def ahora():
     ciudad = 'Ciudad Autónoma de Buenos Aires'
     unidad = 'metric'
     idioma = 'en'
-    api_key = '9207292b2ee0882a607f4058f6fb9da3'
     url = 'http://api.openweathermap.org/data/2.5/{0}?q={1}&units={2}&lang={3}&appid={4}'.format(
         tipo_pronostico, ciudad, unidad ,idioma, api_key)
 
